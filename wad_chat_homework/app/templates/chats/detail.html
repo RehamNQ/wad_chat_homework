@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}{{ chat.title }} · wad_chat_homework{% endblock %}
+
+{% block content %}
+<div class="two-column-layout">
+    <aside class="sidebar">
+        <div class="panel">
+            <h2>Chats</h2>
+            <form method="post" action="/chats" class="stack-form">
+                <label>
+                    <span>New chat title</span>
+                    <input type="text" name="title" value="New Chat" maxlength="150">
+                </label>
+                <button type="submit" class="button full-width">Create chat</button>
+            </form>
+            <hr>
+            <ul class="chat-list compact">
+                {% for item in chats %}
+                    <li>
+                        <a href="/chats/{{ item.id }}" class="chat-list-item {% if item.id == chat.id %}active{% endif %}">
+                            <strong>{{ item.title }}</strong>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </aside>
+
+    <section class="main-panel">
+        <div class="panel">
+            <div class="chat-header">
+                <h1>{{ chat.title }}</h1>
+                <p class="muted">Chat #{{ chat.id }}</p>
+            </div>
+
+            {% if error %}
+                <div class="alert error">{{ error }}</div>
+            {% endif %}
+
+            <div class="messages">
+                {% if chat.messages %}
+                    {% for message in chat.messages %}
+                        <article class="message-card {{ message.role }}">
+                            <div class="message-role">{{ message.role|capitalize }}</div>
+                            <div class="message-content">{{ message.content }}</div>
+                            <div class="message-time">{{ message.created_at.strftime("%Y-%m-%d %H:%M") if message.created_at else "" }}</div>
+                        </article>
+                    {% endfor %}
+                {% else %}
+                    <p class="muted">This chat is empty. Ask the assistant something below.</p>
+                {% endif %}
+            </div>
+
+            <form method="post" action="/chats/{{ chat.id }}/messages" class="stack-form">
+                <label>
+                    <span>Your message</span>
+                    <textarea name="content" rows="5" required>{{ message_value }}</textarea>
+                </label>
+                <button type="submit" class="button">Send message</button>
+            </form>
+        </div>
+    </section>
+</div>
+{% endblock %}

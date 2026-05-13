@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Home · wad_chat_homework{% endblock %}
+
+{% block content %}
+<section class="hero-card">
+    <h1>Local LLM Chat Homework</h1>
+    <p>
+        This is a clean, server-rendered FastAPI homework project with PostgreSQL, Redis,
+        JWT authentication, GitHub OAuth, and a local GGUF model through llama-cpp-python.
+    </p>
+    <div class="hero-actions">
+        <a href="/auth/register" class="button">Create account</a>
+        <a href="/auth/login" class="button secondary">Login</a>
+    </div>
+</section>
+{% endblock %}
